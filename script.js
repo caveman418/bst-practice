@@ -71,6 +71,31 @@ const Tree = (arr = []) => {
         return tempRoot;
     }
 
+    const find = (data) => {
+        let tempRoot = root;
+        while (tempRoot) {
+            if (tempRoot.data === data) return tempRoot;
+            if (data > tempRoot.data) tempRoot = tempRoot.right;
+            if (data < tempRoot.data) tempRoot = tempRoot.left;
+        }
+        return 'node does not exist';
+    }
+
+    const levelOrder = () => {
+        let tempRoot = root;
+        let queue = [tempRoot];
+        let list = [];
+
+        while (queue.length > 0) {
+            if (queue[0].left) queue.push(queue[0].left);
+            if (queue[0].right) queue.push(queue[0].right);
+
+            list.push(queue.shift().data);
+        }
+
+        return list;
+    }
+
     const prettyPrint = (node = root, prefix = '', isLeft = true) => {
         if (node.right !== null) {
           prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -81,5 +106,5 @@ const Tree = (arr = []) => {
         }
       }
 
-    return {root, insertNode, deleteNode, prettyPrint};
+    return {root, insertNode, deleteNode, find, levelOrder, prettyPrint};
 }
