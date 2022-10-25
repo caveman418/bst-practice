@@ -3,15 +3,16 @@ const Node = (data) => {
 }
 
 const Tree = (_arr = []) => {
-    const initArr = (arr) => {
+
+    const _initArr = (arr) => {
         let uniq = [...new Set(arr)];
         return uniq.sort((a,b) => a-b);
     }
-
+    
     const _buildTree = (arr) => {
         let rootIndex = Math.floor((arr.length-1) / 2);
         let tempRoot = Node(arr[rootIndex]);
-
+        
         if (arr.length <= 1) {
             return tempRoot;
         } else if (arr.length === 2) {
@@ -24,9 +25,13 @@ const Tree = (_arr = []) => {
         
         return tempRoot;
     }
-
-    _arr = initArr(_arr);
+    
+    _arr = _initArr(_arr);
     let root = _buildTree(_arr); //initialize BST
+
+    let preOrderData = []; //initialize storage for traversal methods
+    let inOrderData = [];
+    let postOrderData = [];
 
     const insertNode = (data, tempRoot = root) => {
         if (data >= tempRoot.data) {
@@ -96,10 +101,6 @@ const Tree = (_arr = []) => {
         return list;
     }
 
-    let preOrderData = [];
-    let inOrderData = [];
-    let postOrderData = [];
-
     const preOrder = (tempRoot = root) => {
         if (tempRoot == root) preOrderData = [];
         preOrderData.push(tempRoot.data);
@@ -154,7 +155,7 @@ const Tree = (_arr = []) => {
     const isBalanced = () => Math.abs(height(root.right) - height(root.left)) <= 1;
 
     const rebalance = () => {
-        _arr = initArr(inOrder());
+        _arr = _initArr(inOrder());
         root = _buildTree(_arr);
         console.log('rebalanced!');
     }
