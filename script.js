@@ -2,13 +2,13 @@ const Node = (data) => {
     return {data: data, left: null, right: null};
 }
 
-const Tree = (arr = []) => {
+const Tree = (_arr = []) => {
     const initArr = (arr) => {
         let uniq = [...new Set(arr)];
         return uniq.sort((a,b) => a-b);
     }
 
-    const buildTree = (arr = initArr()) => {
+    const _buildTree = (arr = initArr()) => {
         let rootIndex = Math.floor((arr.length-1) / 2);
         let tempRoot = Node(arr[rootIndex]);
 
@@ -18,15 +18,15 @@ const Tree = (arr = []) => {
             tempRoot.right = Node(arr[1]);
             return tempRoot;
         } else {
-            tempRoot.right = buildTree(arr.slice(rootIndex + 1, arr.length));
-            tempRoot.left = buildTree(arr.slice(0, rootIndex));
+            tempRoot.right = _buildTree(arr.slice(rootIndex + 1, arr.length));
+            tempRoot.left = _buildTree(arr.slice(0, rootIndex));
         }
         
         return tempRoot;
     }
 
-    arr = initArr(arr);
-    let root = buildTree(arr); //initialize BST
+    _arr = initArr(_arr);
+    let root = _buildTree(_arr); //initialize BST
 
     const insertNode = (data, tempRoot = root) => {
         if (data >= tempRoot.data) {
@@ -96,6 +96,34 @@ const Tree = (arr = []) => {
         return list;
     }
 
+    let preOrderData = [];
+    let inOrderData = [];
+    let postOrderData = [];
+
+    const preOrder = (tempRoot = root) => {
+        if (tempRoot == root) preOrderData = [];
+        preOrderData.push(tempRoot.data);
+        if (tempRoot.left) preOrder(tempRoot.left);
+        if (tempRoot.right) preOrder(tempRoot.right);
+        return preOrderData;
+    }
+
+    const inOrder = (tempRoot = root) => {
+        if (tempRoot == root) inOrderData = [];
+        if (tempRoot.left) inOrder(tempRoot.left);
+        inOrderData.push(tempRoot.data);
+        if (tempRoot.right) inOrder(tempRoot.right);
+        return inOrderData;
+    }
+
+    const postOrder = (tempRoot = root) => {
+        if (tempRoot == root) postOrderData = [];
+        if (tempRoot.left) postOrder(tempRoot.left);
+        if (tempRoot.right) postOrder(tempRoot.right);
+        postOrderData.push(tempRoot.data);
+        return postOrderData;
+    }
+
     const prettyPrint = (node = root, prefix = '', isLeft = true) => {
         if (node.right !== null) {
           prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -106,5 +134,5 @@ const Tree = (arr = []) => {
         }
       }
 
-    return {root, insertNode, deleteNode, find, levelOrder, prettyPrint};
+    return {root, insertNode, deleteNode, find, levelOrder, preOrder, inOrder, postOrder, height, depth, isBalanced, prettyPrint};
 }
