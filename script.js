@@ -65,7 +65,7 @@ const Tree = (_arr = []) => {
             if (!tempRoot.right) return tempRoot.left;
 
             tempRoot.data = findMin(tempRoot.right);
-            deleteNode(tempRoot.data, tempRoot.right);
+            tempRoot.right = deleteNode(tempRoot.data, tempRoot.right);
         }
 
         return tempRoot;
