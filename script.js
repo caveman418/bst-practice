@@ -8,7 +8,7 @@ const Tree = (_arr = []) => {
         return uniq.sort((a,b) => a-b);
     }
 
-    const _buildTree = (arr = initArr()) => {
+    const _buildTree = (arr) => {
         let rootIndex = Math.floor((arr.length-1) / 2);
         let tempRoot = Node(arr[rootIndex]);
 
@@ -153,6 +153,12 @@ const Tree = (_arr = []) => {
 
     const isBalanced = () => Math.abs(height(root.right) - height(root.left)) <= 1;
 
+    const rebalance = () => {
+        _arr = initArr(inOrder());
+        root = _buildTree(_arr);
+        console.log('rebalanced!');
+    }
+
     const prettyPrint = (node = root, prefix = '', isLeft = true) => {
         if (node.right !== null) {
           prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -163,5 +169,5 @@ const Tree = (_arr = []) => {
         }
       }
 
-    return {root, insertNode, deleteNode, find, levelOrder, preOrder, inOrder, postOrder, height, depth, isBalanced, prettyPrint};
+    return {root, insertNode, deleteNode, find, levelOrder, preOrder, inOrder, postOrder, height, depth, isBalanced, rebalance, prettyPrint};
 }
