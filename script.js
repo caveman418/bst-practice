@@ -124,6 +124,35 @@ const Tree = (_arr = []) => {
         return postOrderData;
     }
 
+    const height = (node = root) => {
+        let heightLeft = 0;
+        let heightRight = 0;
+
+        if (node.left) heightLeft += 1 + height(node.left);
+        if (node.right) heightRight += 1 + height(node.right);
+        return Math.max(heightLeft, heightRight);
+    }
+
+    const depth = (node = root) => {
+        let data = node.data;
+        let tempRoot = root;
+        let depth = 0;
+        while (tempRoot) {
+            if (tempRoot.data == data) return depth;
+            if (data > tempRoot.data) {
+                depth++;
+                tempRoot = tempRoot.right;
+            }
+            if (data < tempRoot.data) {
+                depth++;
+                tempRoot = tempRoot.left;
+            }
+        }
+        return 'node does not exist in current tree';
+    }
+
+    const isBalanced = () => Math.abs(height(root.right) - height(root.left)) <= 1;
+
     const prettyPrint = (node = root, prefix = '', isLeft = true) => {
         if (node.right !== null) {
           prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
