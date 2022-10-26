@@ -2,7 +2,7 @@ const Node = (data) => {
     return {data: data, left: null, right: null};
 }
 
-const Tree = (_arr = []) => {
+export const Tree = (_arr = []) => {
 
     const _initArr = (arr) => {
         let uniq = [...new Set(arr)];
